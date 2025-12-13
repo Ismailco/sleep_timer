@@ -1,0 +1,5 @@
+<resources>
+  <string name="app_name">Sleep Timer</string>
+  <string name="notification_channel_name">Sleep Timer</string>
+  <string name="notification_channel_description">Keeps the sleep timer running in the background</string>
+</resources>
