@@ -4,16 +4,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -34,14 +38,18 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -49,7 +57,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anonymous.sleep_timer.sleep.SleepTimerService
 import com.anonymous.sleep_timer.ui.theme.SleepTimerTheme
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.PI
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -75,6 +85,119 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun SleepTimerScreen() {
+  var showIntro by remember { mutableStateOf(true) }
+
+  if (showIntro) {
+    AnimatedSplash(onFinished = { showIntro = false })
+  } else {
+    SleepTimerContent()
+  }
+}
+
+@Composable
+private fun AnimatedSplash(onFinished: () -> Unit) {
+  val moonOffsetX = remember { Animatable(-140f) }
+  val moonOffsetY = remember { Animatable(140f) }
+  val starAlpha1 = remember { Animatable(0f) }
+  val starAlpha2 = remember { Animatable(0f) }
+  val starAlpha3 = remember { Animatable(0f) }
+
+  LaunchedEffect(Unit) {
+    coroutineScope {
+      launch {
+        moonOffsetX.animateTo(
+          targetValue = 0f,
+          animationSpec = tween(durationMillis = 900, easing = FastOutSlowInEasing)
+        )
+      }
+      launch {
+        moonOffsetY.animateTo(
+          targetValue = -20f,
+          animationSpec = tween(durationMillis = 900, easing = FastOutSlowInEasing)
+        )
+      }
+      launch {
+        delay(450)
+        starAlpha1.animateTo(1f, tween(300))
+        starAlpha2.animateTo(0.9f, tween(300))
+        starAlpha3.animateTo(0.8f, tween(300))
+      }
+    }
+    delay(350)
+    onFinished()
+  }
+
+  Box(
+    modifier = Modifier
+      .fillMaxSize()
+      .background(
+        Brush.verticalGradient(
+          listOf(Color(0xFF05060E), Color(0xFF101237))
+        )
+      ),
+    contentAlignment = Alignment.Center
+  ) {
+    Star(
+      modifier = Modifier
+        .align(Alignment.TopStart)
+        .offset(x = 48.dp, y = 100.dp),
+      alpha = starAlpha1.value
+    )
+    Star(
+      modifier = Modifier
+        .align(Alignment.TopEnd)
+        .offset(x = (-60).dp, y = 140.dp),
+      alpha = starAlpha2.value
+    )
+    Star(
+      modifier = Modifier
+        .align(Alignment.CenterEnd)
+        .offset(x = (-30).dp, y = (-40).dp),
+      alpha = starAlpha3.value
+    )
+
+    Image(
+      painter = painterResource(id = R.drawable.ic_sleep_logo),
+      contentDescription = "Sleep Timer moon",
+      modifier = Modifier
+        .size(160.dp)
+        .offset(
+          x = moonOffsetX.value.dp,
+          y = moonOffsetY.value.dp
+        )
+        .graphicsLayer {
+          rotationZ = -8f
+        }
+    )
+
+    Text(
+      text = "Sleep Timer",
+      color = Color.White,
+      style = MaterialTheme.typography.headlineMedium,
+      modifier = Modifier
+        .align(Alignment.BottomCenter)
+        .padding(bottom = 120.dp)
+    )
+  }
+}
+
+@Composable
+private fun Star(modifier: Modifier, alpha: Float) {
+  Box(
+    modifier = modifier
+      .size(12.dp)
+      .graphicsLayer { this.alpha = alpha }
+      .background(
+        Brush.radialGradient(
+          colors = listOf(Color(0xFFB7C6FF), Color.Transparent)
+        ),
+        shape = CircleShape
+      )
+  )
+}
+
+@Composable
+private fun SleepTimerContent() {
   val context = LocalContext.current
   val maxMinutes = 120
   val maxSeconds = maxMinutes * 60
@@ -108,23 +231,33 @@ fun SleepTimerScreen() {
     verticalArrangement = Arrangement.SpaceBetween,
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+      modifier = Modifier.fillMaxWidth(),
+      horizontalAlignment = Alignment.CenterHorizontally
+    ) {
       Text(
         text = "Sleep Timer",
         style = MaterialTheme.typography.headlineLarge,
-        color = Color.White
+        color = Color.White,
+        textAlign = TextAlign.Center,
+        modifier = Modifier.fillMaxWidth()
       )
       Text(
         text = "Scroll around the circle to set time",
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onSecondary,
-        modifier = Modifier.padding(top = 8.dp)
+        modifier = Modifier
+          .padding(top = 8.dp)
+          .fillMaxWidth(),
+        textAlign = TextAlign.Center
       )
       Text(
         text = "When the timer ends, media fades out smoothly and playback pauses automatically.",
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.7f),
-        modifier = Modifier.padding(top = 4.dp),
+        modifier = Modifier
+          .padding(top = 4.dp)
+          .fillMaxWidth(),
         textAlign = TextAlign.Center
       )
     }
@@ -253,11 +386,23 @@ fun TimerDial(
         fontWeight = FontWeight.Bold
       )
       Text(
-        text = "${totalSeconds / 60} min",
+        text = formatDurationLabel(totalSeconds),
         color = MaterialTheme.colorScheme.onSecondary,
         modifier = Modifier.padding(top = 4.dp)
       )
     }
+  }
+}
+
+private fun formatDurationLabel(totalSeconds: Int): String {
+  val totalMinutes = totalSeconds / 60
+  if (totalMinutes == 0) return "0 min"
+  val hours = totalMinutes / 60
+  val minutes = totalMinutes % 60
+  return when {
+    hours > 0 && minutes > 0 -> "${hours}h ${minutes} min"
+    hours > 0 -> "${hours}h"
+    else -> "${minutes} min"
   }
 }
 

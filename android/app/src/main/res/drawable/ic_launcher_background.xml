@@ -1,6 +1,12 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-  <item android:drawable="@color/splashscreen_background"/>
   <item>
-    <bitmap android:gravity="center" android:src="@drawable/splashscreen_logo"/>
+    <shape android:shape="rectangle">
+      <gradient
+        android:startColor="#111430"
+        android:endColor="#1C1F3A"
+        android:angle="135"/>
+      <corners android:radius="28dp"/>
+    </shape>
   </item>
+  <item android:gravity="center" android:drawable="@drawable/ic_sleep_logo"/>
 </layer-list>
