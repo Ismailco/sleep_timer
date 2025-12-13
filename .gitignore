@@ -1,43 +1,31 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+# Android / Kotlin project ignores
+.gradle/
+/build/
+/captures/
+local.properties
+*.iml
+.idea/
+.DS_Store
 
-# dependencies
-node_modules/
-
-# Expo
-.expo/
-dist/
-web-build/
-expo-env.d.ts
-
-# Native
-.kotlin/
-*.orig.*
+# Keystore & signing
+*.keystore
 *.jks
 *.p8
 *.p12
 *.key
-*.mobileprovision
 
-# Metro
-.metro-health-check*
+# NDK / native intermediates
+.cxx/
+.externalNativeBuild/
+.kotlin/
+*.orig.*
 
-# debug
-npm-debug.*
-yarn-debug.*
-yarn-error.*
+# VS Code / tooling
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
 
-# macOS
-.DS_Store
+# Misc
+*.log
 *.pem
-
-# local env files
-.env*.local
-
-# typescript
-*.tsbuildinfo
-
-app-example
-
-# generated native folders
-/ios
-/android
