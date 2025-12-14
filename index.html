@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Sleep Timer · Android App</title>
+    <meta
+      name="description"
+      content="Sleep Timer is a minimalist Android app that lets you fade out media and drift off without worrying about screens."
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Newsreader:ital,wght@0,500;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #030615;
+        --bg-alt: #0d1533;
+        --accent: #6c9bff;
+        --accent-soft: #9dd8ff;
+        --text: #f5f7ff;
+        --muted: rgba(245, 247, 255, 0.65);
+        --border: rgba(255, 255, 255, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Space Grotesk", "Segoe UI", system-ui, -apple-system,
+          BlinkMacSystemFont, sans-serif;
+        background: radial-gradient(circle at 20% 20%, #131d48, var(--bg));
+        color: var(--text);
+      }
+
+      header {
+        padding: 24px clamp(24px, 8vw, 80px) 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: var(--text);
+      }
+
+      .logo img {
+        width: 52px;
+        height: 52px;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .logo span {
+        font-weight: 600;
+        letter-spacing: 0.04em;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-left: 18px;
+        transition: color 220ms ease;
+      }
+
+      nav a:hover {
+        color: var(--accent);
+      }
+
+      main {
+        padding: 40px clamp(24px, 8vw, 80px) 96px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 32px;
+        align-items: center;
+        padding: clamp(20px, 4vw, 40px);
+        border-radius: 32px;
+        border: 1px solid var(--border);
+        background: linear-gradient(145deg, rgba(5, 20, 53, 0.95), #06090f);
+        box-shadow: 0 30px 120px rgba(3, 6, 21, 0.8);
+      }
+
+      .hero h1 {
+        font-size: clamp(2.2rem, 5vw, 3.6rem);
+        margin: 0 0 12px;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+      }
+
+      .hero p {
+        margin: 0 0 24px;
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+
+      .cta-row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .cta {
+        padding: 14px 26px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 180ms ease, box-shadow 180ms ease,
+          background 180ms ease;
+      }
+
+      .cta.primary {
+        background: linear-gradient(120deg, var(--accent), var(--accent-soft));
+        color: #0a0f20;
+        box-shadow: 0 10px 40px rgba(108, 155, 255, 0.3);
+      }
+
+      .cta.primary:hover {
+        transform: translateY(-1px);
+      }
+
+      .cta.secondary {
+        border-color: var(--border);
+        color: var(--text);
+        background: transparent;
+      }
+
+      .showcase {
+        position: relative;
+        border-radius: 28px;
+        border: 1px solid var(--border);
+        padding: 32px;
+        background: radial-gradient(circle at top, rgba(108, 155, 255, 0.15), transparent),
+          rgba(4, 7, 17, 0.8);
+      }
+
+      .showcase canvas {
+        width: 100%;
+        max-width: 360px;
+        aspect-ratio: 1 / 2;
+        display: block;
+        margin: 0 auto;
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        background: radial-gradient(circle at 35% 20%, rgba(255, 255, 255, 0.08), #050917);
+      }
+
+      section {
+        margin-top: 80px;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 24px;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+      }
+
+      .feature-card {
+        padding: 24px;
+        border-radius: 24px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.02);
+        min-height: 180px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .feature-card h3 {
+        margin: 0;
+        font-size: 1.15rem;
+      }
+
+      .feature-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      footer {
+        padding: 32px clamp(24px, 8vw, 80px);
+        border-top: 1px solid var(--border);
+        font-size: 0.9rem;
+        color: var(--muted);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: border-color 160ms ease;
+      }
+
+      footer a:hover {
+        border-color: var(--accent);
+      }
+
+      @media (max-width: 640px) {
+        header {
+          flex-direction: column;
+        }
+        nav a {
+          margin-left: 12px;
+        }
+        .showcase {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a class="logo" href="./">
+        <img src="logo.png" alt="Sleep Timer moon logo" />
+        <span>Sleep Timer</span>
+      </a>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </nav>
+    </header>
+    <main>
+      <section class="hero">
+        <div>
+          <p style="letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent)">
+            Fall asleep without the rush
+          </p>
+          <h1>
+            A serene timer for winding down your night, built with Jetpack
+            Compose.
+          </h1>
+          <p>
+            Drag the dial, set up to two hours, and let Sleep Timer gracefully
+            lower the volume so your device rests when you do. No ads, no
+            clutter—just a reliable foreground service keeping watch.
+          </p>
+          <div class="cta-row">
+            <a
+              class="cta primary"
+              href="https://github.com/Ismailco/sleep_timer"
+              target="_blank"
+              rel="noopener"
+            >
+              View on GitHub
+            </a>
+            <a class="cta secondary" href="#features">See capabilities</a>
+          </div>
+        </div>
+        <div class="showcase">
+          <canvas id="dialCanvas" aria-hidden="true"></canvas>
+        </div>
+      </section>
+
+      <section id="features">
+        <h2 class="section-title">Why sleepers like it</h2>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <h3>Gesture-first dial</h3>
+            <p>
+              Sculpt the perfect bedtime duration with a smooth circular slider
+              that responds to every drag and snap.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>Foreground service</h3>
+            <p>
+              The countdown stays alive even when the screen goes dark, complete
+              with a persistent notification.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>Media aware</h3>
+            <p>
+              Automatically mutes the media stream, toggles audio focus, and
+              nudges your player to pause when time is up.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>Calm visuals</h3>
+            <p>
+              Composed gradients, subtle glow, and typography tuned to help you
+              relax before sleep.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <span>© <span id="year"></span> Sleep Timer</span>
+      <span>
+        <a href="privacy.html">Privacy Policy</a>
+      </span>
+    </footer>
+    <script>
+      const yearEl = document.getElementById("year");
+      yearEl.textContent = new Date().getFullYear();
+
+      const canvas = document.getElementById("dialCanvas");
+      const ctx = canvas.getContext("2d");
+      const size = 320;
+      canvas.width = size;
+      canvas.height = size;
+
+      const drawDial = (progress = 0.65) => {
+        ctx.clearRect(0, 0, size, size);
+        ctx.save();
+        ctx.translate(size / 2, size / 2);
+
+        ctx.beginPath();
+        ctx.arc(0, 0, 120, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(255,255,255,0.08)";
+        ctx.lineWidth = 16;
+        ctx.stroke();
+
+        ctx.beginPath();
+        const start = -Math.PI / 2;
+        const end = start + Math.PI * 2 * progress;
+        const grad = ctx.createLinearGradient(-120, -120, 120, 120);
+        grad.addColorStop(0, "#6c9bff");
+        grad.addColorStop(1, "#9dd8ff");
+        ctx.strokeStyle = grad;
+        ctx.lineCap = "round";
+        ctx.lineWidth = 18;
+        ctx.arc(0, 0, 120, start, end);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(255,255,255,0.15)";
+        ctx.arc(0, 0, 84, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = "white";
+        ctx.font = "600 42px 'Space Grotesk', sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(`${Math.round(progress * 120)}m`, 0, 12);
+
+        ctx.fillStyle = "rgba(255,255,255,0.6)";
+        ctx.font = "400 16px 'Space Grotesk', sans-serif";
+        ctx.fillText("until fade out", 0, 42);
+
+        ctx.restore();
+      };
+
+      let direction = 1;
+      let progress = 0.65;
+
+      const animate = () => {
+        progress += direction * 0.0025;
+        if (progress >= 0.95 || progress <= 0.35) direction *= -1;
+        drawDial(progress);
+        requestAnimationFrame(animate);
+      };
+
+      drawDial(progress);
+      animate();
+    </script>
+  </body>
+</html>

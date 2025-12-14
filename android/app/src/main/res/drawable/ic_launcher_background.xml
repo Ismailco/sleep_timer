@@ -4,9 +4,8 @@
       <gradient
         android:startColor="#111430"
         android:endColor="#1C1F3A"
-        android:angle="135"/>
-      <corners android:radius="28dp"/>
+        android:angle="135" />
+      <corners android:radius="28dp" />
     </shape>
   </item>
-  <item android:gravity="center" android:drawable="@drawable/ic_sleep_logo"/>
 </layer-list>

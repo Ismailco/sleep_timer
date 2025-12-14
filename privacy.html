@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Sleep Timer · Privacy Policy</title>
+    <meta
+      name="description"
+      content="Privacy policy for the Sleep Timer Android application."
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Newsreader:ital,wght@0,500;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #030615;
+        --bg-alt: #0d1533;
+        --accent: #6c9bff;
+        --text: #f5f7ff;
+        --muted: rgba(245, 247, 255, 0.75);
+        --border: rgba(255, 255, 255, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Space Grotesk", "Segoe UI", system-ui, -apple-system,
+          BlinkMacSystemFont, sans-serif;
+        background: radial-gradient(circle at 10% 10%, #101a3f, var(--bg));
+        color: var(--text);
+      }
+
+      header {
+        padding: 24px clamp(24px, 8vw, 80px) 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: var(--text);
+      }
+
+      .logo img {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+      }
+
+      .logo span {
+        letter-spacing: 0.04em;
+        font-weight: 600;
+      }
+
+      header a.back-link {
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 0.95rem;
+        border-bottom: 1px solid transparent;
+        transition: border-color 180ms ease, color 180ms ease;
+      }
+
+      header a.back-link:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      main {
+        padding: 40px clamp(24px, 8vw, 640px) 80px;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 4vw, 2.8rem);
+        margin-bottom: 8px;
+      }
+
+      .meta {
+        color: var(--muted);
+        margin-bottom: 32px;
+        font-size: 0.95rem;
+      }
+
+      section {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: clamp(24px, 3vw, 40px);
+        margin-bottom: 24px;
+        line-height: 1.65;
+      }
+
+      section h2 {
+        margin-top: 0;
+        font-size: 1.3rem;
+      }
+
+      ul {
+        padding-left: 20px;
+        margin: 0;
+      }
+
+      footer {
+        padding: 24px clamp(24px, 8vw, 80px) 40px;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 0.9rem;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a class="logo" href="index.html">
+        <img src="logo.png" alt="Sleep Timer moon logo" />
+        <span>Sleep Timer</span>
+      </a>
+      <a class="back-link" href="index.html">← Back to landing page</a>
+    </header>
+    <main>
+      <h1>Privacy Policy</h1>
+      <p class="meta">Last updated: <span id="updated-date"></span></p>
+
+      <section>
+        <h2>Data collection</h2>
+        <p>
+          The Sleep Timer Android app does <strong>not</strong> collect,
+          transmit, or store any personal data. The timer state, countdown
+          duration, and notification preferences exist only in memory while the
+          app is running.
+        </p>
+      </section>
+
+      <section>
+        <h2>Permissions</h2>
+        <p>
+          The app requests the following Android permissions solely to deliver
+          its core functionality:
+        </p>
+        <ul>
+          <li>
+            <strong>POST_NOTIFICATIONS</strong> – required by Android 13+ to
+            display the foreground notification while the timer runs.
+          </li>
+          <li>
+            <strong>FOREGROUND_SERVICE</strong> – keeps the countdown alive when
+            the screen is off so media can be paused on time.
+          </li>
+          <li>
+            <strong>WAKE_LOCK / AUDIO_FOCUS</strong> – ensures volume changes
+            and pause signals reach the media session.
+          </li>
+        </ul>
+        <p>No other device capabilities are accessed.</p>
+      </section>
+
+      <section>
+        <h2>Third-party services</h2>
+        <p>
+          Sleep Timer does not integrate analytics SDKs, advertising networks,
+          or external APIs. All logic runs locally on your device.
+        </p>
+      </section>
+
+      <section>
+        <h2>Children's privacy</h2>
+        <p>
+          The app is designed for general audiences and does not knowingly
+          collect data from anyone, including children under 13.
+        </p>
+      </section>
+
+      <section>
+        <h2>Updates</h2>
+        <p>
+          If the privacy policy changes, the updated version will be published
+          on this page and the "Last updated" date will reflect the revision.
+        </p>
+      </section>
+
+      <section>
+        <h2>Contact</h2>
+        <p>
+          For privacy-related questions, open an issue on the
+          <a
+            href="https://github.com/Ismailco/sleep_timer"
+            target="_blank"
+            rel="noopener"
+            style="color: var(--accent)"
+            >GitHub repository</a
+          >
+          and the maintainer will respond.
+        </p>
+      </section>
+    </main>
+    <footer>
+      <span>© <span id="year"></span> Sleep Timer</span>
+      <a href="index.html">Landing page</a>
+    </footer>
+    <script>
+      const today = new Date();
+      document.getElementById("updated-date").textContent = today.toLocaleDateString(
+        "en-US",
+        { year: "numeric", month: "long", day: "numeric" }
+      );
+      document.getElementById("year").textContent = today.getFullYear();
+    </script>
+  </body>
+</html>
