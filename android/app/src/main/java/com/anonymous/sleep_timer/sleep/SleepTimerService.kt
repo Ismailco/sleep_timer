@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.CountDownTimer
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
@@ -56,7 +57,7 @@ class SleepTimerService : Service() {
     val manager =
       getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     manager.cancel(VolumeActions.RUNNING_NOTIFICATION_ID)
-    stopForeground(true)
+    stopForeground(STOP_FOREGROUND_REMOVE)
     stopSelf()
   }
 
@@ -69,7 +70,7 @@ class SleepTimerService : Service() {
       VolumeActions.requestAudioFocus(this)
       VolumeActions.showCompletionNotification(this)
       VolumeActions.showCompletionToast(this)
-      stopForeground(true)
+      stopForeground(STOP_FOREGROUND_REMOVE)
       stopSelf()
     }
   }
@@ -77,7 +78,7 @@ class SleepTimerService : Service() {
   private fun buildRunningNotification(remainingMs: Long): Notification {
     val formatted = formatRemaining(remainingMs)
     return NotificationCompat.Builder(this, VolumeActions.CHANNEL_ID)
-      .setSmallIcon(R.mipmap.ic_launcher)
+      .setSmallIcon(R.drawable.ic_notification)
       .setContentTitle("Sleep timer running")
       .setContentText("$formatted remaining")
       .setOnlyAlertOnce(true)
@@ -118,7 +119,11 @@ class SleepTimerService : Service() {
         action = ACTION_START
         putExtra(EXTRA_DURATION_MS, durationMs)
       }
-      context.startForegroundService(intent)
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        context.startForegroundService(intent)
+      } else {
+        context.startService(intent)
+      }
     }
 
     fun stop(context: Context) {

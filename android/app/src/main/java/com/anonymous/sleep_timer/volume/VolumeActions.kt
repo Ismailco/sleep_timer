@@ -17,7 +17,6 @@ import com.anonymous.sleep_timer.R
 object VolumeActions {
 
   const val CHANNEL_ID = "sleep_timer_channel"
-  private const val CHANNEL_NAME = "Sleep Timer"
   const val RUNNING_NOTIFICATION_ID = 2001
   const val COMPLETED_NOTIFICATION_ID = 2002
 
@@ -94,9 +93,10 @@ object VolumeActions {
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
       val channel = NotificationChannel(
         CHANNEL_ID,
-        CHANNEL_NAME,
+        context.getString(R.string.notification_channel_name),
         NotificationManager.IMPORTANCE_DEFAULT
       )
+      channel.description = context.getString(R.string.notification_channel_description)
       manager.createNotificationChannel(channel)
     }
   }
@@ -106,7 +106,7 @@ object VolumeActions {
     val manager =
       context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-      .setSmallIcon(R.mipmap.ic_launcher)
+      .setSmallIcon(R.drawable.ic_notification)
       .setContentTitle("Sleep timer finished")
       .setContentText("Media volume muted.")
       .setAutoCancel(true)

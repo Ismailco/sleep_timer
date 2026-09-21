@@ -1,4 +1,10 @@
 <resources>
+  <style name="Theme.SleepTimer.Starting" parent="Theme.SplashScreen">
+    <item name="windowSplashScreenBackground">@color/splashscreen_background</item>
+    <item name="windowSplashScreenAnimatedIcon">@drawable/sleep_timer_logo</item>
+    <item name="postSplashScreenTheme">@style/Theme.SleepTimer</item>
+  </style>
+
   <style name="Theme.SleepTimer" parent="Theme.Material3.DayNight.NoActionBar">
     <item name="android:statusBarColor">@android:color/transparent</item>
     <item name="android:navigationBarColor">@android:color/black</item>
